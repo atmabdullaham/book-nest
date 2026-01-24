@@ -22,227 +22,83 @@ Route protection using middleware
 
 CRUD-style API using Next.js backend
 
-Clean component-based UI with Tailwind CSS
+# BookNest
 
-🧰 Tech Stack
-Frontend
+BookNest is a simple book browsing platform built with Next.js (App Router), Tailwind CSS, and MongoDB (Mongoose). Users can browse books and view details, while an admin can log in (mock auth) to add new books.
 
-Next.js 15/16 (App Router)
+## Setup & Installation
 
-React
+### Prerequisites
 
-Tailwind CSS
+- Node.js 18+ (recommended: Node.js 20+)
+- npm
+- A MongoDB database (MongoDB Atlas or local)
 
-Backend
+### 1) Install dependencies
 
-Next.js Route Handlers (app/api)
+```bash
+npm install
+```
 
-Data stored using in-memory array / JSON / database (optional)
+### 2) Configure environment variables
 
-Authentication
+Create a `.env.local` file in the project root:
 
-Mock authentication (hardcoded credentials)
+```bash
+MONGODB_URI="your-mongodb-connection-string"
+```
 
-Cookie-based session handling
+### 3) (Optional) Seed sample books
 
-🏗 Architecture Overview
-User
-↓
-Next.js Pages & Components
-↓
-Next.js API Routes (app/api)
-↓
-Data Source (JSON / Memory / DB)
+```bash
+npm run seed
+```
 
-✔ No separate backend
-✔ No Express.js
-✔ Single deployment
+### 4) Run the app
 
-🗺 Pages & Routes
-Route Access Description
-/ Public Landing page
-/login Public Admin login
-/books Public Book list
-/books/[id] Public Book details
-/add-book Protected Add new book
-🏠 Landing Page Requirements
+```bash
+npm run dev
+```
 
-The landing page must contain 7 sections, excluding Navbar and Footer.
+Open `http://localhost:3000`.
 
-Required Sections:
+### Admin demo credentials
 
-Hero Section
+- Email: `admin@booknest.com`
+- Password: `123456`
 
-Book Categories
+## Route Summary
 
-Featured Books
+### UI Routes
 
-About BookNest
+| Route            | Access    | What it does                          |
+| ---------------- | --------- | ------------------------------------- |
+| `/`              | Public    | Landing page with marketing sections  |
+| `/books`         | Public    | Shows all books (latest first)        |
+| `/books/[id]`    | Public    | Book details page                     |
+| `/login`         | Public    | Admin login (sets `auth=true` cookie) |
+| `/register`      | Public    | Registration UI page                  |
+| `/add-book`      | Protected | Admin-only add book form              |
+| `/about`         | Public    | About page                            |
+| `/about/contact` | Public    | Contact page                          |
+| `/about/teams`   | Public    | Teams page                            |
+| `/tutorials`     | Public    | Tutorials page                        |
 
-How It Works
+### API Routes
 
-Reader Reviews / Testimonials
+| Method | Endpoint          | What it does                           | Auth                        |
+| ------ | ----------------- | -------------------------------------- | --------------------------- |
+| `GET`  | `/api/books`      | Returns all books from MongoDB         | Public                      |
+| `POST` | `/api/books`      | Creates a new book                     | Requires cookie `auth=true` |
+| `GET`  | `/api/books/[id]` | Returns a single book by MongoDB `_id` | Public                      |
 
-Call To Action
+## Implemented Features (Brief)
 
-Navbar and Footer should appear globally via layout.js.
-
-🔐 Authentication Guideline (Mock Login)
-Purpose
-
-Authentication is implemented only for admin access, not for customers.
-
-Hardcoded Admin Credentials
-Email: admin@booknest.com
-Password: 123456
-
-Login Flow
-
-User submits login form
-
-Credentials are checked against hardcoded values
-
-On success:
-
-Set cookie: auth=true
-
-Redirect to /books
-
-On failure:
-
-Show error message
-
-🍪 Cookie Usage
-
-Cookie name: auth
-
-Cookie value: true
-
-Used for:
-
-Checking login state
-
-Protecting routes
-
-⚠ Passwords are never stored in cookies.
-
-🛡 Route Protection (Middleware)
-Protected Route
-/add-book
-
-Protection Logic
-
-If auth cookie does not exist:
-
-Redirect to /login
-
-Implemented using:
-
-middleware.js
-
-Middleware runs before the page loads.
-
-📚 Book Data Structure
-
-Each book should follow this structure:
-
-{
-id: "1",
-title: "Atomic Habits",
-author: "James Clear",
-price: 450,
-category: "Self Improvement",
-description: "A practical guide to building good habits.",
-image: "https://example.com/book.jpg"
-}
-
-🌐 Backend API (Next.js Route Handlers)
-
-All APIs are implemented using Next.js built-in backend.
-
-API Routes
-Method Endpoint Description
-GET /api/books Get all books
-GET /api/books/[id] Get single book
-POST /api/books Add new book
-API Folder Structure
-app/api/
-├─ books/
-│ ├─ route.js
-│ └─ [id]/
-│ └─ route.js
-
-➕ Add Book Page (Protected)
-Route
-/add-book
-
-Features
-
-Form fields:
-
-Title
-
-Author
-
-Price
-
-Category
-
-Image URL
-
-Description
-
-Submit data to /api/books
-
-Show success toast
-
-Redirect to /books
-
-🔔 Toast Notifications
-
-Use toast notifications to show success messages.
-
-Example:
-
-✅ Book added successfully!
-
-Recommended libraries:
-
-react-hot-toast
-
-sonner
-
-📁 Recommended Folder Structure
-app/
-├─ layout.js # Global layout
-├─ page.js # Landing page
-├─ login/
-│ └─ page.js
-├─ books/
-│ ├─ page.js
-│ └─ [id]/
-│ └─ page.js
-├─ add-book/
-│ └─ page.js
-├─ api/
-│ └─ books/
-│ ├─ route.js
-│ └─ [id]/
-│ └─ route.js
-├─ middleware.js
-components/
-├─ Navbar.jsx
-├─ Footer.jsx
-├─ BookCard.jsx
-├─ forms/
-│ └─ AddBookForm.jsx
-├─ sections/
-│ ├─ Hero.jsx
-│ ├─ Categories.jsx
-│ ├─ FeaturedBooks.jsx
-│ ├─ About.jsx
-│ ├─ HowItWorks.jsx
-│ ├─ Reviews.jsx
-│ └─ CTA.jsx
-data/
-└─ books.js (optional)
+- Book listing: Fetches and displays all books from MongoDB.
+- Book details: Dynamic route (`/books/[id]`) to view full book information.
+- Admin add-book flow: Form submits to `POST /api/books` and stores the book in MongoDB.
+- Mock admin authentication: Login sets a cookie (`auth=true`) for a simple admin session.
+- Route protection: Middleware blocks `/add-book` and redirects to `/login` when not authenticated.
+- API error handling: Basic validation and consistent JSON error responses.
+- Toast feedback: Uses notifications for actions like successful login and adding a book.
+- Seed script: `npm run seed` wipes and inserts demo books into the database.
