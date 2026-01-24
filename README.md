@@ -1,27 +1,3 @@
-A Book Selling Platform using Next.js (App Router)
-📌 Project Overview
-
-BookNest is a beginner-friendly book selling platform built using Next.js (App Router) with Tailwind CSS.
-The application allows users to browse books, view detailed book information, and enables an admin to add new books through a protected route.
-
-The project uses Next.js built-in backend (API Route Handlers) instead of a separate Express.js server.
-
-🎯 Project Goals
-
-This project is designed to demonstrate:
-
-Next.js App Router fundamentals
-
-File-based routing
-
-Server-side data fetching
-
-Mock authentication using cookies
-
-Route protection using middleware
-
-CRUD-style API using Next.js backend
-
 # BookNest
 
 BookNest is a simple book browsing platform built with Next.js (App Router), Tailwind CSS, and MongoDB (Mongoose). Users can browse books and view details, while an admin can log in (mock auth) to add new books.
