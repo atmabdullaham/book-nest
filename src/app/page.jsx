@@ -4,7 +4,9 @@ import CTA from "@/components/sections/CTA";
 import FeaturedBooks from "@/components/sections/FeaturedBooks";
 import Hero from "@/components/sections/Hero";
 import HowItWorks from "@/components/sections/HowItWorks";
+import NewArrivals from "@/components/sections/NewArrivals";
 import Reviews from "@/components/sections/Reviews";
+import Testimonials from "@/components/sections/Testimonials";
 
 export default function Home() {
   return (
@@ -12,9 +14,11 @@ export default function Home() {
       <Hero />
       <Categories />
       <FeaturedBooks />
+      <NewArrivals />
       <About />
       <HowItWorks />
       <Reviews />
+      <Testimonials />
       <CTA />
     </>
   );
